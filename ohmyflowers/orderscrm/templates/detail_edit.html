@@ -1,0 +1,14 @@
+{% extends './detail_view.html' %}
+{% block edit_detail %}
+<div class="row">
+    <div class="col-11 mx-auto mt-4 mb-3">
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-outline-secondary" type="submit">Изменить</button>
+            </div>
+    </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends './detail_view.html' %}
+{% block show_detail %}
+{% if company %}
+<div class="card-body">
+    <h5 class="card-title text-center mt-4">{{ title }}</h5>
+    <ul class="list-group mt-5 mb-4">
+        <li class="list-group-item">
+            <ins><strong>Название заведения:</strong></ins>
+            {{ company.place_title }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Фактический адрес:</strong></ins>
+            {{ company.address }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Реквизиты:</strong></ins>
+            {{ company.payment_details }}
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% if customer %}
+<div class="card-body">
+    <h5 class="card-title text-center mt-4">{{ title }}</h5>
+    <ul class="list-group  mt-5 mb-4">
+        <li class="list-group-item">
+            <ins><strong>Телефон:</strong></ins>
+            {{ customer.phone }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Должность:</strong></ins>
+            {{ customer.position }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Связанные компании:</strong></ins>
+            <br>
+            {% for company in customer.company.all %}
+            {{ company.company_title }} <br>
+            {% endfor %}
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% if order %}
+<div class="card-body">
+    <h5 class="card-title text-center mt-4">{{ title }}</h5>
+    <ul class="list-group mt-5 mb-4">
+        <li class="list-group-item">
+            <ins><strong>Заказчик:</strong></ins>
+            {{ order.customer.name }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Компания:</strong></ins>
+            {{ order.company.company_title }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Тело заказа:</strong></ins>
+            {{ order.order_list }}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Сумма заказа:</strong></ins>
+            {{ order.order_sum }} &#8381;
+        </li>
+        <li class="list-group-item">
+            <ins><strong>КП:</strong></ins>
+            {% if order.offer %}
+            {% include './svg/check.html' %}
+            {% else %}
+            {% include './svg/x.html' %}
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Счет выставлен:</strong></ins>
+            {% if order.payment %}
+            {% include './svg/check.html' %}
+            {% else %}
+            {% include './svg/x.html' %}
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Счет оплачен:</strong></ins>
+            {% if order.payment_done %}
+            {% include './svg/check.html' %}
+            {% else %}
+            {% include './svg/x.html' %}
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Сумма оплаты:</strong></ins>
+            {{ order.payment_sum }} &#8381;
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Заказ выполнен:</strong></ins>
+            {% if order.order_completed %}
+            {% include './svg/check.html' %}
+            {% else %}
+            {% include './svg/x.html' %}
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Заказ сдан:</strong></ins>
+            {% if order.order_done %}
+            {% include './svg/check.html' %}
+            {% else %}
+            {% include './svg/x.html' %}
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Дата размещения:</strong></ins>
+            {{ order.posted_at }}
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

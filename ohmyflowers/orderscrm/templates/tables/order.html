@@ -1,0 +1,57 @@
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Заказчик</th>
+        <th scope="col">Компания</th>
+        <th scope="col">Тело заказа</th>
+        <th scope="col">Сумма заказа</th>
+        <th scope="col">Коммерческое предложение</th>
+        <th scope="col">Счет выставлен</th>
+        <th scope="col">Счет оплачен</th>
+        <th scope="col">Сумма оплаты</th>
+        <th scope="col">Заказ выполнен</th>
+        <th scope="col">Заказ сдан</th>
+        <th scope="col">Дата размещения</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr onclick="window.location.href='/orders/{{ order.id }}'; return false" style="cursor: pointer">
+        <th scope="row">{{ order.id }}</th>
+        <td>{{ order.customer.name }}</td>
+        <td>{{ order.company.company_title }}</td>
+        <td>{{ order.order_list }}</td>
+        <td>{{ order.order_sum }} &#8381;</td>
+        <td>{% if order.offer %}
+            {% include '../svg/check.html' %}
+            {% else %}
+            {% include '../svg/x.html' %}
+            {% endif %}
+        </td>
+        <td>{% if order.payment %}
+            {% include '../svg/check.html' %}
+            {% else %}
+            {% include '../svg/x.html' %}
+            {% endif %}</td>
+        <td>{% if order.payment_done %}
+            {% include '../svg/check.html' %}
+            {% else %}
+            {% include '../svg/x.html' %}
+            {% endif %}</td>
+        <td>{{ order.payment_sum }} &#8381;</td>
+        <td>{% if order.order_completed %}
+            {% include '../svg/check.html' %}
+            {% else %}
+            {% include '../svg/x.html' %}
+            {% endif %}</td>
+        <td>{% if order.order_done %}
+            {% include '../svg/check.html' %}
+            {% else %}
+            {% include '../svg/x.html' %}
+            {% endif %}</td>
+        <td>{{ order.posted_at }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
