@@ -5,7 +5,7 @@ from .models import Company, Customer, Order
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('id', 'company_title', 'place_title', 'address')
     list_display_links = ('id', 'company_title')
-    search_fields = ('company_title',)
+    search_fields = ('company_title', 'place_title',)
 
 
 class CustomerAdmin(admin.ModelAdmin):
@@ -18,7 +18,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'company', 'order_list', 'order_sum', 'offer', 'order_completed', 'order_done',
                     'posted_at')
     list_display_links = ('id', 'customer', 'company')
-    search_fields = ('id', 'customer', 'company', 'posted_at')
+    search_fields = ('customer__name', 'company__company_title', 'order_list')
 
 
 admin.site.register(Company, CompanyAdmin)

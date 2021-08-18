@@ -6,6 +6,7 @@ from .models import Company, Customer, Order
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout
+from django.db.models import Q
 
 
 def get_url(url):
@@ -239,3 +240,22 @@ def logout_view(request):
     logout(request)
     return redirect('main')
 
+class SearchView(LoginRequiredMixin, View):
+    login_url = settings.LOGIN_URL
+
+    def get(self, request):
+        query = request.GET.get('q')
+        customer_list = Customer.objects.filter(
+            Q(name__icontains=query) | Q(phone__icontains=query)
+        )
+        company_list = Company.objects.filter(
+            Q(company_title__icontains=query) | Q(place_title__icontains=query)
+        )
+        order_list = Order.objects.filter(
+            Q(order_list__icontains=query) | Q(customer__name__icontains=query) | Q(company__company_title__icontains=query)
+        )
+        return render(request, 'search.html', context={
+            'customers': customer_list,
+            'companies': company_list,
+            'orders': order_list,
+        })
