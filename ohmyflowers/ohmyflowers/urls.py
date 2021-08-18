@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from orderscrm.views import MainView, CompaniesView, OrdersView, CustomersView, CompanyDetailView, OrderDetailView, \
     CustomerDetailView, CompanyCreateView, OrderCreateView, CustomerCreateView, CompanyEditView, OrderEditView, \
-    CustomerEditView, LoginView, logout_view, SearchView
+    CustomerEditView, LoginView, logout_view
 
 
 urlpatterns = [
@@ -37,5 +37,4 @@ urlpatterns = [
     path('customers/<int:pk>/edit', CustomerEditView.as_view(), name='customer_edit'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout_view, name='logout'),
-    path('search/', SearchView.as_view(), name='search'),
 ]
