@@ -18,7 +18,6 @@ from django.urls import path, include, re_path
 from orderscrm.views import MainView, CompaniesView, OrdersView, CustomersView, CompanyDetailView, OrderDetailView, \
     CustomerDetailView, CompanyCreateView, OrderCreateView, CustomerCreateView, CompanyEditView, OrderEditView, \
     CustomerEditView, LoginView, logout_view, SearchView
-from smart_selects.urls import url
 
 
 urlpatterns = [
