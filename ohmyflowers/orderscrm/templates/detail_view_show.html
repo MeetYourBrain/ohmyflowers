@@ -35,8 +35,19 @@
             <ins><strong>Связанные компании:</strong></ins>
             <br>
             {% for company in customer.company.all %}
-            {{ company.company_title }} <br>
+            <a href="{% url 'company' company.id %}">{{ company.company_title }}</a> <br>
             {% endfor %}
+        </li>
+        <li class="list-group-item">
+            <ins><strong>Запросы:</strong></ins>
+            <br>
+            {% if customer_orders %}
+            {% for order in customer_orders %}
+            <a href="{% url 'order' order.id %}">Запрос #{{ order.id }} от {{ order.posted_at|date:"j b Y" }}</a><br>
+            {% endfor %}
+            {% else %}
+            Нет запросов
+            {% endif %}
         </li>
     </ul>
 </div>
@@ -109,7 +120,16 @@
             <ins><strong>Дата размещения:</strong></ins>
             {{ order.posted_at }}
         </li>
+        <li class="list-group-item">
+            <ins><strong>Заказ отменен:</strong></ins>
+            {% if order.canceled %}
+            {% include './svg/check.html' %}
+            {% else %}
+            {% include './svg/x.html' %}
+            {% endif %}
+        </li>
     </ul>
+    Запрос добавил: {{ order.owner }}
 </div>
 {% endif %}
 {% endblock %}

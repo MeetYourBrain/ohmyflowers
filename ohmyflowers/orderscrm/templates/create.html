@@ -2,6 +2,7 @@
 {% block title %}Ohmyflowers - Добавить {{ title }}{% endblock %}
 
 {% block content %}
+
 <div class="row">
     <div class="col-7 mx-auto mb-5">
         <form enctype="multipart/form-data" method="post">
@@ -13,4 +14,10 @@
         </form>
     </div>
 </div>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script src="/static/smart-selects/admin/js/chainedm2m.js"></script>
+<script src="/static/smart-selects/admin/js/bindfields.js"></script>
 {% endblock %}

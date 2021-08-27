@@ -15,10 +15,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'customer', 'company', 'order_list', 'order_sum', 'offer', 'order_completed', 'order_done',
-                    'posted_at')
-    list_display_links = ('id', 'customer', 'company')
-    search_fields = ('customer__name', 'company__company_title', 'order_list')
+    pass
 
 
 admin.site.register(Company, CompanyAdmin)

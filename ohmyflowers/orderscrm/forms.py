@@ -24,15 +24,16 @@ class CompanyCreationForm(forms.ModelForm):
             'company_title': forms.TextInput(attrs={'class': 'form-control'}),
             'place_title': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
-            'payment_details': forms.Textarea(attrs={'class': 'form-control', 'rows': 8})
+            'payment_details': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 
 class OrderCreationForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['order_list', 'customer', 'company', 'order_sum', 'payment_sum', 'offer', 'payment', 'payment_done',
-                  'order_completed', 'order_done']
+        fields = ['company', 'customer', 'order_list', 'order_sum', 'payment_sum', 'offer', 'payment', 'payment_done',
+                  'order_completed', 'order_done', 'canceled']
+
         widgets = {
             'order_list': forms.Textarea(attrs={'class': 'form-control', 'rows': 8}),
             'customer': forms.Select(attrs={'class': 'form-control'}),
@@ -44,7 +45,7 @@ class OrderCreationForm(forms.ModelForm):
             'payment_done': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'order_completed': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'order_done': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-
+            'canceled': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 

@@ -19,13 +19,25 @@ class MainView(LoginRequiredMixin, View):
     login_url = settings.LOGIN_URL
 
     def get(self, request):
-        today = datetime.today()
-        orders_today = Order.objects.filter(posted_at__year=today.year, posted_at__month=today.month,
-                                           posted_at__day=today.day)
+        orders_non_offer = Order.objects.filter(
+            Q(offer=False) & Q(canceled=False) & Q(payment=False) & Q(payment_done=False) & Q(order_completed=False) & Q(order_done=False)
+        )
+        orders_non_payment = Order.objects.filter(
+            Q(canceled=False) & Q(offer=True) & Q(payment=False)
+        )
+        orders_non_paid = Order.objects.filter(
+            Q(offer=True) & Q(payment=True) & Q(payment_done=False) & Q(canceled=False)
+        )
+        orders_in_production = Order.objects.filter(
+            Q(offer=True) & Q(payment=True) & Q(payment_done=True) & Q(order_completed=False) & Q(order_done=False)
+            & Q(canceled=False)
+        )
         return render(request, 'index.html', context={
-            'orders': orders_today
+            'orders_non_offer': orders_non_offer,
+            'orders_non_payment': orders_non_payment,
+            'orders_non_paid': orders_non_paid,
+            'orders_in_production': orders_in_production,
         })
-
 
 class CompaniesView(LoginRequiredMixin, View):
     login_url = settings.LOGIN_URL
@@ -69,6 +81,10 @@ class CustomerDetailView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         customer = get_object_or_404(Customer, id=pk)
+        try:
+            orders = Order.objects.filter(customer=customer)
+        except Order.DoesNotExist:
+            orders = None
         title = f'Заказчик {customer.name}'
         url = get_url(request.path)
         return render(request, 'detail_view_show.html', context={
@@ -76,6 +92,7 @@ class CustomerDetailView(LoginRequiredMixin, View):
             'pk': pk,
             'title': title,
             'url': url,
+            'customer_orders': orders,
         })
 
 
@@ -147,9 +164,13 @@ class OrderCreateView(LoginRequiredMixin, View):
         })
 
     def post(self, request):
+        owner = request.user
         order_create_form = OrderCreationForm(request.POST)
         if order_create_form.is_valid():
-            order_create_form.save()
+            form = order_create_form.save()
+            form.owner = owner
+            form.offer_date = None
+            form.save()
             return redirect('orders')
 
 
